@@ -1,341 +1,499 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="author" content="András Simonyi" />
-  <title>elte.tmpbLtrTp</title>
-  <style>
-    html {
-      line-height: 1.5;
-      font-family: Georgia, serif;
-      font-size: 20px;
-      color: #1a1a1a;
-      background-color: #fdfdfd;
+<title>InstructGPT hand gesture experiments</title>
+<!-- 2023-01-27 Fri 13:01 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="Org-mode">
+<meta name="author" content="András Simonyi">
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css"rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<style>pre.src.src-ipython {background-color: #3f3f3f; color: #dcdccc}</style>
+<style>pre.src.src-jupyter {background-color: #3f3f3f; color: #dcdccc}</style></style>
+<style>pre.src.src-R {background-color: #3f3f3f; color: #dcdccc}</style>
+<style>pre.src.src-scheme {background-color: #3f3f3f; color: #dcdccc}</style>
+<style>
+/* org mode styles on top of twbs */
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    font-size: 18px;
+    margin-bottom: 105px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 101px;
+    background-color: #f5f5f5;
+}
+
+footer > div {
+    padding: 10px;
+}
+
+footer p {
+    margin: 0 0 5px;
+    text-align: center;
+    font-size: 16px;
+}
+
+#table-of-contents {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+blockquote p {
+    font-size: 18px;
+}
+
+pre {
+    font-size: 16px;
+}
+
+.footpara {
+    display: inline-block;
+}
+
+figcaption {
+  font-size: 16px;
+  color: #666;
+  font-style: italic;
+  padding-bottom: 15px;
+}
+
+/* from twbs docs */
+
+.bs-docs-sidebar.affix {
+    position: static;
+}
+@media (min-width: 768px) {
+    .bs-docs-sidebar {
+        padding-left: 20px;
     }
-    body {
-      margin: 0 auto;
-      max-width: 36em;
-      padding-left: 50px;
-      padding-right: 50px;
-      padding-top: 50px;
-      padding-bottom: 50px;
-      hyphens: auto;
-      word-wrap: break-word;
-      text-rendering: optimizeLegibility;
-      font-kerning: normal;
+}
+
+/* All levels of nav */
+.bs-docs-sidebar .nav > li > a {
+    display: block;
+    padding: 4px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #999;
+}
+.bs-docs-sidebar .nav > li > a:hover,
+.bs-docs-sidebar .nav > li > a:focus {
+    padding-left: 19px;
+    color: #A1283B;
+    text-decoration: none;
+    background-color: transparent;
+    border-left: 1px solid #A1283B;
+}
+.bs-docs-sidebar .nav > .active > a,
+.bs-docs-sidebar .nav > .active:hover > a,
+.bs-docs-sidebar .nav > .active:focus > a {
+    padding-left: 18px;
+    font-weight: bold;
+    color: #A1283B;
+    background-color: transparent;
+    border-left: 2px solid #A1283B;
+}
+
+/* Nav: second level (shown on .active) */
+.bs-docs-sidebar .nav .nav {
+    display: none; /* Hide by default, but at >768px, show it */
+    padding-bottom: 10px;
+}
+.bs-docs-sidebar .nav .nav > li > a {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 30px;
+    font-size: 12px;
+    font-weight: normal;
+}
+.bs-docs-sidebar .nav .nav > li > a:hover,
+.bs-docs-sidebar .nav .nav > li > a:focus {
+    padding-left: 29px;
+}
+.bs-docs-sidebar .nav .nav > .active > a,
+.bs-docs-sidebar .nav .nav > .active:hover > a,
+.bs-docs-sidebar .nav .nav > .active:focus > a {
+    padding-left: 28px;
+    font-weight: 500;
+}
+
+/* Nav: third level (shown on .active) */
+.bs-docs-sidebar .nav .nav .nav {
+    padding-bottom: 10px;
+}
+.bs-docs-sidebar .nav .nav .nav > li > a {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 40px;
+    font-size: 12px;
+    font-weight: normal;
+}
+.bs-docs-sidebar .nav .nav .nav > li > a:hover,
+.bs-docs-sidebar .nav .nav .nav > li > a:focus {
+    padding-left: 39px;
+}
+.bs-docs-sidebar .nav .nav .nav > .active > a,
+.bs-docs-sidebar .nav .nav .nav > .active:hover > a,
+.bs-docs-sidebar .nav .nav .nav > .active:focus > a {
+    padding-left: 38px;
+    font-weight: 500;
+}
+
+/* Show and affix the side nav when space allows it */
+@media (min-width: 992px) {
+    .bs-docs-sidebar .nav > .active > ul {
+        display: block;
     }
-    @media (max-width: 600px) {
-      body {
-        font-size: 0.9em;
-        padding: 1em;
-      }
+    /* Widen the fixed sidebar */
+    .bs-docs-sidebar.affix,
+    .bs-docs-sidebar.affix-bottom {
+        width: 213px;
     }
-    @media print {
-      body {
-        background-color: transparent;
-        color: black;
-        font-size: 12pt;
-      }
-      p, h2, h3 {
-        orphans: 3;
-        widows: 3;
-      }
-      h2, h3, h4 {
-        page-break-after: avoid;
-      }
+    .bs-docs-sidebar.affix {
+        position: fixed; /* Undo the static from mobile first approach */
+        top: 20px;
     }
-    p {
-      margin: 1em 0;
+    .bs-docs-sidebar.affix-bottom {
+        position: absolute; /* Undo the static from mobile first approach */
     }
-    a {
-      color: #1a1a1a;
+    .bs-docs-sidebar.affix .bs-docs-sidenav,.bs-docs-sidebar.affix-bottom .bs-docs-sidenav {
+        margin-top: 0;
+        margin-bottom: 0
     }
-    a:visited {
-      color: #1a1a1a;
+}
+@media (min-width: 1200px) {
+    /* Widen the fixed sidebar again */
+    .bs-docs-sidebar.affix-bottom,
+    .bs-docs-sidebar.affix {
+        width: 263px;
     }
-    img {
-      max-width: 100%;
-    }
-    h1, h2, h3, h4, h5, h6 {
-      margin-top: 1.4em;
-    }
-    h5, h6 {
-      font-size: 1em;
-      font-style: italic;
-    }
-    h6 {
-      font-weight: normal;
-    }
-    ol, ul {
-      padding-left: 1.7em;
-      margin-top: 1em;
-    }
-    li > ol, li > ul {
-      margin-top: 0;
-    }
-    blockquote {
-      margin: 1em 0 1em 1.7em;
-      padding-left: 1em;
-      border-left: 2px solid #e6e6e6;
-      color: #606060;
-    }
-    code {
-      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
-      font-size: 85%;
-      margin: 0;
-    }
-    pre {
-      margin: 1em 0;
-      overflow: auto;
-    }
-    pre code {
-      padding: 0;
-      overflow: visible;
-    }
-    .sourceCode {
-     background-color: transparent;
-     overflow: visible;
-    }
-    hr {
-      background-color: #1a1a1a;
-      border: none;
-      height: 1px;
-      margin: 1em 0;
-    }
-    table {
-      margin: 1em 0;
-      border-collapse: collapse;
-      width: 100%;
-      overflow-x: auto;
-      display: block;
-      font-variant-numeric: lining-nums tabular-nums;
-    }
-    table caption {
-      margin-bottom: 0.75em;
-    }
-    tbody {
-      margin-top: 0.5em;
-      border-top: 1px solid #1a1a1a;
-      border-bottom: 1px solid #1a1a1a;
-    }
-    th {
-      border-top: 1px solid #1a1a1a;
-      padding: 0.25em 0.5em 0.25em 0.5em;
-    }
-    td {
-      padding: 0.125em 0.5em 0.25em 0.5em;
-    }
-    header {
-      margin-bottom: 4em;
-      text-align: center;
-    }
-    #TOC li {
-      list-style: none;
-    }
-    #TOC a:not(:hover) {
-      text-decoration: none;
-    }
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
-  </style>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
+}
+</style>
+<script>
+$(function() {
+    'use strict';
+
+    $('.bs-docs-sidebar li').first().addClass('active');
+
+    $(document.body).scrollspy({target: '.bs-docs-sidebar'});
+
+    $('.bs-docs-sidebar').affix();
+});
+</script>
 </head>
 <body>
-<h1 id="instructgpt-hand-gesture-experiments">InstructGPT hand gesture experiments</h1>
-<h2 id="handmethat-formal-task-descriptions">HandMeThat formal task descriptions</h2>
-<table>
+<div id="content" class="container">
+<div class="row"><div class="col-md-12"><h1 class="title">InstructGPT hand gesture experiments</h1>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> HandMeThat formal task descriptions</h2>
+<div class="outline-text-2" id="text-1">
+<table class="table table-striped table-bordered table-hover table-condensed">
+
+
+<colgroup>
+<col  class="left">
+
+<col  class="left">
+
+<col  class="left">
+</colgroup>
 <thead>
-<tr class="header">
-<th>Action</th>
-<th>Args</th>
-<th>Semantics</th>
+<tr>
+<th scope="col" class="text-left">Action</th>
+<th scope="col" class="text-left">Args</th>
+<th scope="col" class="text-left">Semantics</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td>move</td>
-<td>?a - agent ?from - location ?to - location</td>
-<td>Agent [?a] moves from [?from] to [?to]</td>
+<tr>
+<td class="text-left">move</td>
+<td class="text-left">?a - agent ?from - location ?to - location</td>
+<td class="text-left">Agent [?a] moves from [?from] to [?to]</td>
 </tr>
-<tr class="even">
-<td>pick-up-at-loc</td>
-<td>?a - agent ?obj - object ?loc - location</td>
-<td>Agent [?a] picks up [?obj] at [?loc]</td>
+
+<tr>
+<td class="text-left">pick-up-at-loc</td>
+<td class="text-left">?a - agent ?obj - object ?loc - location</td>
+<td class="text-left">Agent [?a] picks up [?obj] at [?loc]</td>
 </tr>
-<tr class="odd">
-<td>pick-up-from-rec-at-loc</td>
-<td>?a - agent ?obj - object ?rec - receptacle ?loc - location</td>
-<td>Agent [?a] picks up [?obj] from [?rec] at [?loc]</td>
+
+<tr>
+<td class="text-left">pick-up-from-rec-at-loc</td>
+<td class="text-left">?a - agent ?obj - object ?rec - receptacle ?loc - location</td>
+<td class="text-left">Agent [?a] picks up [?obj] from [?rec] at [?loc]</td>
 </tr>
-<tr class="even">
-<td>put-inside-loc</td>
-<td>?a - agent ?obj - object ?loc - location</td>
-<td>Agent [?a] puts [?obj] into [?loc]</td>
+
+<tr>
+<td class="text-left">put-inside-loc</td>
+<td class="text-left">?a - agent ?obj - object ?loc - location</td>
+<td class="text-left">Agent [?a] puts [?obj] into [?loc]</td>
 </tr>
-<tr class="odd">
-<td>put-ontop-loc</td>
-<td>?a - agent ?obj - object ?loc - location</td>
-<td>Agent [?a] puts [?obj] onto [?loc]</td>
+
+<tr>
+<td class="text-left">put-ontop-loc</td>
+<td class="text-left">?a - agent ?obj - object ?loc - location</td>
+<td class="text-left">Agent [?a] puts [?obj] onto [?loc]</td>
 </tr>
-<tr class="even">
-<td>put-inside-rec-at-loc</td>
-<td>?a - agent ?obj - object ?rec - receptacle ?loc - location</td>
-<td>Agent [?a] puts [?obj] into [?rec] at [?loc]</td>
+
+<tr>
+<td class="text-left">put-inside-rec-at-loc</td>
+<td class="text-left">?a - agent ?obj - object ?rec - receptacle ?loc - location</td>
+<td class="text-left">Agent [?a] puts [?obj] into [?rec] at [?loc]</td>
 </tr>
-<tr class="odd">
-<td>put-ontop-loc-at-loc</td>
-<td>?a - agent ?obj - object ?rec - receptacle ?loc - location</td>
-<td>Agent [?a] puts [?obj] onto [?rec] at [?loc]</td>
+
+<tr>
+<td class="text-left">put-ontop-loc-at-loc</td>
+<td class="text-left">?a - agent ?obj - object ?rec - receptacle ?loc - location</td>
+<td class="text-left">Agent [?a] puts [?obj] onto [?rec] at [?loc]</td>
 </tr>
-<tr class="even">
-<td>open-loc</td>
-<td>?a - agent ?loc - location</td>
-<td>Agent [?a] opens [?loc]</td>
+
+<tr>
+<td class="text-left">open-loc</td>
+<td class="text-left">?a - agent ?loc - location</td>
+<td class="text-left">Agent [?a] opens [?loc]</td>
 </tr>
-<tr class="odd">
-<td>close-loc</td>
-<td>?a - agent ?loc - location</td>
-<td>Agent [?a] closes [?loc]</td>
+
+<tr>
+<td class="text-left">close-loc</td>
+<td class="text-left">?a - agent ?loc - location</td>
+<td class="text-left">Agent [?a] closes [?loc]</td>
 </tr>
-<tr class="even">
-<td>open-rec-at-loc</td>
-<td>?a - agent ?rec - receptacle ?loc - location</td>
-<td>Agent [?a] opens [?rec] at [?loc]</td>
+
+<tr>
+<td class="text-left">open-rec-at-loc</td>
+<td class="text-left">?a - agent ?rec - receptacle ?loc - location</td>
+<td class="text-left">Agent [?a] opens [?rec] at [?loc]</td>
 </tr>
-<tr class="odd">
-<td>close-rec-at-loc</td>
-<td>?a - agent ?rec - receptacle ?loc - location</td>
-<td>Agent [?a] closes [?rec] at [?loc]</td>
+
+<tr>
+<td class="text-left">close-rec-at-loc</td>
+<td class="text-left">?a - agent ?rec - receptacle ?loc - location</td>
+<td class="text-left">Agent [?a] closes [?rec] at [?loc]</td>
 </tr>
-<tr class="even">
-<td>toggle-on-loc</td>
-<td>?a - agent ?loc - location</td>
-<td>Agent [?a] toggles on [?loc]</td>
+
+<tr>
+<td class="text-left">toggle-on-loc</td>
+<td class="text-left">?a - agent ?loc - location</td>
+<td class="text-left">Agent [?a] toggles on [?loc]</td>
 </tr>
-<tr class="odd">
-<td>toggle-off-loc</td>
-<td>?a - agent ?loc - location</td>
-<td>Agent [?a] toggles off [?loc]</td>
+
+<tr>
+<td class="text-left">toggle-off-loc</td>
+<td class="text-left">?a - agent ?loc - location</td>
+<td class="text-left">Agent [?a] toggles off [?loc]</td>
 </tr>
-<tr class="even">
-<td>toggle-on-obj-at-loc</td>
-<td>?a - agent ?obj - object ?loc - location</td>
-<td>Agent [?a] toggles on [?obj] at [?loc]</td>
+
+<tr>
+<td class="text-left">toggle-on-obj-at-loc</td>
+<td class="text-left">?a - agent ?obj - object ?loc - location</td>
+<td class="text-left">Agent [?a] toggles on [?obj] at [?loc]</td>
 </tr>
-<tr class="odd">
-<td>toggle-off-obj-at-loc</td>
-<td>?a - agent ?obj - object ?loc - location</td>
-<td>Agent [?a] toggles off [?obj] at [?loc]</td>
+
+<tr>
+<td class="text-left">toggle-off-obj-at-loc</td>
+<td class="text-left">?a - agent ?obj - object ?loc - location</td>
+<td class="text-left">Agent [?a] toggles off [?obj] at [?loc]</td>
 </tr>
-<tr class="even">
-<td>heat-obj</td>
-<td>?a - agent ?obj - object ?loc - location</td>
-<td>Agent [?a] heats up [?obj] at [?loc]</td>
+
+<tr>
+<td class="text-left">heat-obj</td>
+<td class="text-left">?a - agent ?obj - object ?loc - location</td>
+<td class="text-left">Agent [?a] heats up [?obj] at [?loc]</td>
 </tr>
-<tr class="odd">
-<td>cool-obj</td>
-<td>?a - agent ?obj - object ?loc - location</td>
-<td>Agent [?a] cools down [?obj] at [?loc]</td>
+
+<tr>
+<td class="text-left">cool-obj</td>
+<td class="text-left">?a - agent ?obj - object ?loc - location</td>
+<td class="text-left">Agent [?a] cools down [?obj] at [?loc]</td>
 </tr>
-<tr class="even">
-<td>soak-obj</td>
-<td>?a - agent ?obj - object ?loc - location</td>
-<td>Agent [?a] makes [?obj] soaked at [?loc]</td>
+
+<tr>
+<td class="text-left">soak-obj</td>
+<td class="text-left">?a - agent ?obj - object ?loc - location</td>
+<td class="text-left">Agent [?a] makes [?obj] soaked at [?loc]</td>
 </tr>
-<tr class="odd">
-<td>slice-obj</td>
-<td>?a - agent ?obj - object ?tool - tool ?loc - location</td>
-<td>Agent [?a] slices up [?obj] with [?tool] at [?loc]</td>
+
+<tr>
+<td class="text-left">slice-obj</td>
+<td class="text-left">?a - agent ?obj - object ?tool - tool ?loc - location</td>
+<td class="text-left">Agent [?a] slices up [?obj] with [?tool] at [?loc]</td>
 </tr>
-<tr class="even">
-<td>clean-obj-at-loc</td>
-<td>?a - agent ?obj - object ?tool - tool ?loc - location</td>
-<td>Agent [?a] cleans up [?obj] with [?tool] at [?loc]</td>
+
+<tr>
+<td class="text-left">clean-obj-at-loc</td>
+<td class="text-left">?a - agent ?obj - object ?tool - tool ?loc - location</td>
+<td class="text-left">Agent [?a] cleans up [?obj] with [?tool] at [?loc]</td>
 </tr>
-<tr class="odd">
-<td>clean-loc</td>
-<td>?a - agent ?tool - tool ?loc - location</td>
-<td>Agent [?a] cleans up [?loc] with [?tool]</td>
+
+<tr>
+<td class="text-left">clean-loc</td>
+<td class="text-left">?a - agent ?tool - tool ?loc - location</td>
+<td class="text-left">Agent [?a] cleans up [?loc] with [?tool]</td>
 </tr>
-<tr class="even">
-<td>bring-to-human</td>
-<td>?r - robot ?obj - object ?h - human</td>
-<td>Robot [?r] brings [?obj] to human [?h]</td>
+
+<tr>
+<td class="text-left">bring-to-human</td>
+<td class="text-left">?r - robot ?obj - object ?h - human</td>
+<td class="text-left">Robot [?r] brings [?obj] to human [?h]</td>
 </tr>
-<tr class="odd">
-<td>take-from-human</td>
-<td>?r - robot ?obj - object ?h - human</td>
-<td>Robot [?r] takes [?obj] from human [?h</td>
+
+<tr>
+<td class="text-left">take-from-human</td>
+<td class="text-left">?r - robot ?obj - object ?h - human</td>
+<td class="text-left">Robot [?r] takes [?obj] from human [?h</td>
 </tr>
 </tbody>
 </table>
-<h2 id="processing-the-handmethat-tasks-with-gpt3.5">Processing the HandMeThat tasks with GPT3.5</h2>
-<h3 id="open-gesture-set">Open gesture set</h3>
-<ol>
-<li><p>move</p>
-<ol>
-<li><p>Prompt</p>
-<p>How would you communicate, using only hand gestures, to persom X that you want him to move from location Z to location W?</p></li>
-<li><p>Completions</p>
-<ul>
-<li>I would point in the direction of location W and make a walking gesture with my hands, indicating my desire for person X to move from location Z to location W.</li>
-<li>First, point to the person and then point in the direction of location W. Then, make walking motions with your hands and follow it with a pointing motion in the direction of location W. Finally, make a nodding gesture to indicate that you want the person to move to location W.</li>
-</ul></li>
-</ol></li>
-<li><p>pick-up-at-loc</p>
-<ol>
-<li><p>Prompt</p>
-<p>How would you communicate, using only hand gestures, to person X that you want him to pick up object Y at location W.</p></li>
-<li><p>Completion</p>
-<p>First, point at person X. Then, hold your hand up in the air with your fingers pointing up like you're holding something. Then, point in the direction of location W. Finally, hold your hand up in the air again with your fingers pointing up like you're holding something and move your hand back towards person X to indicate that you want them to pick up object Y.</p></li>
-</ol></li>
-<li><p>put-inside-rec-at-loc</p>
-<ol>
-<li><p>Prompt</p>
-<p>How would you communicate, using only hand gestures, to person X that you want him to put object Y into container W, which is at location Z?</p></li>
-<li><p>Completion</p>
-<p>First, you would point to object Y and then make a pushing motion towards location Z. Then, you would point at container W and motion with both hands as though you were lifting an object and placing it inside. Lastly, you would point at container W to indicate where the object should be placed.</p></li>
-</ol></li>
-</ol>
-<h3 id="closed-gesture-set">Closed gesture set</h3>
-<ol>
-<li><p>pick-up-at-loc</p>
-<ol>
-<li><p>Prompt</p>
-<ul>
-<li>How would you express the intention below if you could use only the following hand gestures without words:</li>
-<li>pointing to something,</li>
-<li>waving at something,</li>
-<li>making a circular motion.</li>
-<li>moving your hand vertically.</li>
-<li>moving your hand horizontally.</li>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Processing the HandMeThat tasks with GPT3.5</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Open gesture set</h3>
+<div class="outline-text-3" id="text-2-1">
+</div><div id="outline-container-sec-2-1-1" class="outline-4">
+<h4 id="sec-2-1-1"><span class="section-number-4">2.1.1</span> move</h4>
+<div class="outline-text-4" id="text-2-1-1">
+</div><ol class="org-ol"><li><a id="sec-2-1-1-1" name="sec-2-1-1-1"></a>Prompt<br ><div class="outline-text-5" id="text-2-1-1-1">
+<p>
+How would you communicate, using only hand gestures, to persom X that you want
+him to move from location Z to location W?
+</p>
+</div>
+</li>
+<li><a id="sec-2-1-1-2" name="sec-2-1-1-2"></a>Completions<br ><div class="outline-text-5" id="text-2-1-1-2">
+<ul class="org-ul">
+<li>I would point in the direction of location W and make a walking gesture with
+my hands, indicating my desire for person X to move from location Z to
+location W.
+</li>
+<li>First, point to the person and then point in the direction of location W.
+Then, make walking motions with your hands and follow it with a pointing
+motion in the direction of location W. Finally, make a nodding gesture to
+indicate that you want the person to move to location W.
+</li>
 </ul>
-<p>Intention: You want person X to put object Y into container W, which is at location Z.</p>
-<ol>
-<li>Point to person X.</li>
-<li>Point to object Y.</li>
-<li>Move hand hotizontally in the direction of W.</li>
+</div>
+</li></ol>
+</div>
+<div id="outline-container-sec-2-1-2" class="outline-4">
+<h4 id="sec-2-1-2"><span class="section-number-4">2.1.2</span> pick-up-at-loc</h4>
+<div class="outline-text-4" id="text-2-1-2">
+</div><ol class="org-ol"><li><a id="sec-2-1-2-1" name="sec-2-1-2-1"></a>Prompt<br ><div class="outline-text-5" id="text-2-1-2-1">
+<p>
+How would you communicate, using only hand gestures, to person X that you want
+him to pick up object Y at location W.
+</p>
+</div>
+</li>
+<li><a id="sec-2-1-2-2" name="sec-2-1-2-2"></a>Completion<br ><div class="outline-text-5" id="text-2-1-2-2">
+<p>
+First, point at person X. Then, hold your hand up in the air with your fingers
+pointing up like you&rsquo;re holding something. Then, point in the direction of
+location W. Finally, hold your hand up in the air again with your fingers
+pointing up like you&rsquo;re holding something and move your hand back towards person
+X to indicate that you want them to pick up object Y.
+</p>
+</div>
+</li></ol>
+</div>
+<div id="outline-container-sec-2-1-3" class="outline-4">
+<h4 id="sec-2-1-3"><span class="section-number-4">2.1.3</span> put-inside-rec-at-loc</h4>
+<div class="outline-text-4" id="text-2-1-3">
+</div><ol class="org-ol"><li><a id="sec-2-1-3-1" name="sec-2-1-3-1"></a>Prompt<br ><div class="outline-text-5" id="text-2-1-3-1">
+<p>
+How would you communicate, using only hand gestures, to person X that you want
+him to put object Y into container W, which is at location Z?
+</p>
+</div>
+</li>
+<li><a id="sec-2-1-3-2" name="sec-2-1-3-2"></a>Completion<br ><div class="outline-text-5" id="text-2-1-3-2">
+<p>
+First, you would point to object Y and then make a pushing motion towards
+location Z. Then, you would point at container W and motion with both hands as
+though you were lifting an object and placing it inside. Lastly, you would point
+at container W to indicate where the object should be placed.
+</p>
+</div>
+</li></ol>
+</div>
+</div>
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Closed gesture set</h3>
+<div class="outline-text-3" id="text-2-2">
+</div><div id="outline-container-sec-2-2-1" class="outline-4">
+<h4 id="sec-2-2-1"><span class="section-number-4">2.2.1</span> pick-up-at-loc</h4>
+<div class="outline-text-4" id="text-2-2-1">
+</div><ol class="org-ol"><li><a id="sec-2-2-1-1" name="sec-2-2-1-1"></a>Prompt<br ><div class="outline-text-5" id="text-2-2-1-1">
+<ul class="org-ul">
+<li>How would you express the intention below if you could use only the following hand gestures without words:
+</li>
+<li>pointing to something,
+</li>
+<li>waving at something,
+</li>
+<li>making a circular motion.
+</li>
+<li>moving your hand vertically.
+</li>
+<li>moving your hand horizontally.
+</li>
+</ul>
+
+<p>
+Intention: You want person X to put object Y into container W, which is at location Z.
+</p>
+<ol class="org-ol">
+<li>Point to person X.
+</li>
+<li>Point to object Y.
+</li>
+<li>Move hand hotizontally in the  direction of W.
+</li>
 </ol>
-<p>Intention: You want person X to pick up object Y at location W.</p>
-<ol>
+
+<p>
+Intention: You want person X to pick up object Y at location W.
+</p>
+<ol class="org-ol">
 <li></li>
-</ol></li>
-<li><p>Completion</p>
-<p>Point to person X.</p>
-<ol>
-<li>Point to location W.</li>
-<li>Make a circular motion with your hand.</li>
-</ol></li>
-</ol></li>
 </ol>
+</div>
+</li>
+<li><a id="sec-2-2-1-2" name="sec-2-2-1-2"></a>Completion<br ><div class="outline-text-5" id="text-2-2-1-2">
+<p>
+Point to person X.
+</p>
+<ol class="org-ol">
+<li>Point to location W.
+</li>
+<li>Make a circular motion with your hand.
+</li>
+</ol>
+</div>
+</li></ol>
+</div>
+</div>
+</div>
+</div></div></div>
+<footer id="postamble" class="">
+<div><p class="author">Author: András Simonyi</p>
+<p class="date">Created: 2023-01-27 Fri 13:01</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 28.2 (<a href="http://orgmode.org">Org-mode</a> 9.6)</p>
+</div>
+</footer>
 </body>
 </html>
